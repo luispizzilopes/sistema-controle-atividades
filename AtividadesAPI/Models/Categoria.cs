@@ -1,0 +1,26 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AtividadesAPI.Models
+{
+    public class Categoria
+    {
+        [Key]
+        public int CategoriaId { get; set; }
+
+        [Required]
+        [MinLength(5)]
+        [MaxLength(50)]
+        public string NomeCategoria { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string DescricaoCategoria { get; set; }
+
+        [Required]
+        public DateTime DataCriacaoCategoria { get; set; }
+
+        public DateTime? DataAlteracaoCategoria { get; set; } = null;
+
+        public ICollection<Atividade> Atividades { get; set; }
+    }
+}
