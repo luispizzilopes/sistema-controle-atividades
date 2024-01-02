@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AtividadesAPI.Models
 {
@@ -21,6 +22,7 @@ namespace AtividadesAPI.Models
 
         public DateTime? DataAlteracaoCategoria { get; set; } = null;
 
+        [JsonIgnore]
         public ICollection<Atividade> Atividades { get; set; }
     }
 }
