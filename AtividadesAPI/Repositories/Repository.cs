@@ -28,7 +28,7 @@ namespace AtividadesAPI.Repositories
             return await _context
                 .Set<T>()
                 .AsNoTracking()
-                .SingleOrDefaultAsync(); 
+                .SingleOrDefaultAsync(preticate); 
         }
 
         public async Task Add(T entity)
