@@ -35,7 +35,7 @@ namespace AtividadesAPI.Services
 
                 await _repositoryRegistroLog.Add(new RegistroLog
                 {
-                    DescricaoRegistro = $"Nova atividade '{atividade.DescricaoAtividade}' registrada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.Date}"
+                    DescricaoRegistro = $"Nova atividade '{atividade.DescricaoAtividade}' registrada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
                 }); 
 
                 return true; 
@@ -54,6 +54,11 @@ namespace AtividadesAPI.Services
 
                 await _repositoryAtividade.Update(atividade);
 
+                await _repositoryRegistroLog.Add(new RegistroLog
+                {
+                    DescricaoRegistro = $"Atividade de Id {atividade.AtividadeId} modificada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
+                });
+
                 return true; 
             }
 
@@ -67,6 +72,11 @@ namespace AtividadesAPI.Services
             if (atividade != null)
             {
                 await _repositoryAtividade.Delete(atividade);
+
+                await _repositoryRegistroLog.Add(new RegistroLog
+                {
+                    DescricaoRegistro = $"Atividade de Id {atividade.AtividadeId} removida na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
+                });
 
                 return true; 
             }

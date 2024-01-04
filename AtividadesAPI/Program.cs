@@ -14,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<FilterCategoria>();
+builder.Services.AddScoped<FilterAtividade>(); 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAtividade, AtividadeService>();
 builder.Services.AddScoped<ICategoria, CategoriaService>();

@@ -19,7 +19,7 @@ namespace AtividadesAPI.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogInformation("<-----------------Ação do EndPoin da Controller Categoria----------------->");
+            _logger.LogInformation("<-----------------Final da Execução do EndPoin da Controller Categoria----------------->");
         }
     }
 }

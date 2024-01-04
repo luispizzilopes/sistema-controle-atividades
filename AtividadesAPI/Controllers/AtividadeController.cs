@@ -1,4 +1,5 @@
-﻿using AtividadesAPI.Models;
+﻿using AtividadesAPI.Filters;
+using AtividadesAPI.Models;
 using AtividadesAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AtividadesAPI.Controllers
 {
+    [ServiceFilter(typeof(FilterAtividade))]
     [Route("api/[controller]")]
     [ApiController]
     public class AtividadeController : ControllerBase
