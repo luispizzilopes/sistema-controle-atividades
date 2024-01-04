@@ -1,9 +1,7 @@
 ﻿
 using AtividadesAPI.Models;
-using AtividadesAPI.Repositories;
 using AtividadesAPI.Repositories.Interfaces;
 using AtividadesAPI.Services.Interfaces;
-using Microsoft.Data.SqlClient.DataClassification;
 
 namespace AtividadesAPI.Services
 {

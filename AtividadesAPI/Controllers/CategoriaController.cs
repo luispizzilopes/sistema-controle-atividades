@@ -1,35 +1,33 @@
 ﻿using AtividadesAPI.Models;
 using AtividadesAPI.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtividadesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AtividadeController : ControllerBase
+    public class CategoriaController : ControllerBase
     {
-        private readonly IAtividade _atividadeService;
+        private readonly ICategoria _categoriaService;
 
-        public AtividadeController(IAtividade atividadeService)
+        public CategoriaController(ICategoria categoriaService)
         {
-            _atividadeService = atividadeService;
+            _categoriaService = categoriaService; 
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Atividade>> GetByIdAtividade(int id)
+        public async Task<ActionResult<Categoria>> GetByIdCategoria(int id)
         {
             try
             {
-                var result = await _atividadeService.GetByIdAtividade(id); 
+                var result = await _categoriaService.GetByIdCategoria(id);
 
-                if(result != null)
+                if (result != null)
                 {
-                    return Ok(result); 
+                    return Ok(result);
                 }
 
-                return BadRequest("Não foi encontrar uma atividade com o Id informado");
+                return BadRequest("Não foi encontrar uma categoria com o Id informado");
             }
             catch (Exception ex)
             {
@@ -38,11 +36,11 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Atividade>>> GetAllAtividades()
+        public async Task<ActionResult<IEnumerable<Categoria>>> GetAllCategoria()
         {
             try
             {
-                var result = await _atividadeService.GetAllAtividades();
+                var result = await _categoriaService.GetAllCategoria();
 
                 if (result.Count() > 0)
                 {
@@ -58,17 +56,17 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAtividade([FromBody] Atividade atividade)
+        public async Task<ActionResult> AddCategoria([FromBody] Categoria categoria)
         {
             try
             {
-                if (atividade != null)
+                if (categoria != null)
                 {
-                    bool result = await _atividadeService.AddAtividade(atividade);
+                    bool result = await _categoriaService.AddCategoria(categoria);
 
                     if (result)
                     {
-                        return Ok("Atividade adicionada com sucesso!");
+                        return Ok("Categoria adicionada com sucesso!");
                     }
                 }
 
@@ -81,21 +79,21 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAtividade([FromBody] Atividade atividade)
+        public async Task<ActionResult> UpdateCategoria([FromBody] Categoria categoria)
         {
             try
             {
-                if (atividade != null)
+                if (categoria != null)
                 {
-                    bool result = await _atividadeService.UpdateAtividade(atividade);
+                    bool result = await _categoriaService.UpdateCategoria(categoria);
 
                     if (result)
                     {
-                        return Ok("Atividade alterada com sucesso!");
+                        return Ok("Categoria alterada com sucesso!");
                     }
                 }
 
-                return BadRequest("Não foi encontrar uma atividade com o Id informado");
+                return BadRequest("Não foi encontrar uma categoria com o Id informado");
             }
             catch (Exception ex)
             {
@@ -104,18 +102,18 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteAtividade([FromRoute] int id)
+        public async Task<ActionResult> DeleteCategoria([FromRoute] int id)
         {
             try
             {
-                bool result = await _atividadeService.DeleteAtividade(id);
+                bool result = await _categoriaService.DeleteCategoria(id);
 
                 if (result)
                 {
-                    return Ok("Atividade removida com sucesso!");
+                    return Ok("Categoria removida com sucesso!");
                 }
 
-                return BadRequest("Não foi encontrar uma atividade com o Id informado");
+                return BadRequest("Categoria vinculada a uma atividade existente ou categoria não encontrada!");
             }
             catch (Exception ex)
             {
