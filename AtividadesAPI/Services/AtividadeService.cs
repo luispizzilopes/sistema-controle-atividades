@@ -30,7 +30,7 @@ namespace AtividadesAPI.Services
         {
             if(atividade != null)
             {
-                atividade.DataCriacaoAtividade = DateTime.Now; 
+                atividade.FinalAtividade = DateTime.Now; 
                 await _repositoryAtividade.Add(atividade);
 
                 await _repositoryRegistroLog.Add(new RegistroLog
@@ -50,8 +50,6 @@ namespace AtividadesAPI.Services
 
             if (atividadeExiste)
             {
-                atividade.DataAlteracaoAtividade = DateTime.Now; 
-
                 await _repositoryAtividade.Update(atividade);
 
                 await _repositoryRegistroLog.Add(new RegistroLog

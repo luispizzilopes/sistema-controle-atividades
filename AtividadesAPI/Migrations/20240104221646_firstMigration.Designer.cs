@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtividadesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240102224308_firstMigration")]
+    [Migration("20240104221646_firstMigration")]
     partial class firstMigration
     {
         /// <inheritdoc />
@@ -36,16 +36,17 @@ namespace AtividadesAPI.Migrations
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataAlteracaoAtividade")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCriacaoAtividade")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescricaoAtividade")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("FinalAtividade")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InicioAtividade")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NomeAtividade")
                         .IsRequired()

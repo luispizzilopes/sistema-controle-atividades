@@ -1,6 +1,8 @@
-﻿using AtividadesAPI.Filters;
+﻿using AtividadesAPI.Dto;
+using AtividadesAPI.Filters;
 using AtividadesAPI.Models;
 using AtividadesAPI.Services.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtividadesAPI.Controllers
@@ -11,14 +13,16 @@ namespace AtividadesAPI.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoria _categoriaService;
+        private readonly IMapper _mapper; 
 
-        public CategoriaController(ICategoria categoriaService)
+        public CategoriaController(ICategoria categoriaService, IMapper mapper)
         {
             _categoriaService = categoriaService; 
+            _mapper = mapper;
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Categoria>> GetByIdCategoria(int id)
+        public async Task<ActionResult<CategoriaDTO>> GetByIdCategoria(int id)
         {
             try
             {
@@ -26,7 +30,8 @@ namespace AtividadesAPI.Controllers
 
                 if (result != null)
                 {
-                    return Ok(result);
+                    var categoria = _mapper.Map<CategoriaDTO>(result); 
+                    return Ok(categoria);
                 }
 
                 return BadRequest("Não foi encontrar uma categoria com o Id informado");
@@ -38,7 +43,7 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categoria>>> GetAllCategoria()
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetAllCategoria()
         {
             try
             {
@@ -46,7 +51,8 @@ namespace AtividadesAPI.Controllers
 
                 if (result.Count() > 0)
                 {
-                    return Ok(result);
+                    var categorias = _mapper.Map<IEnumerable<CategoriaDTO>>(result); 
+                    return Ok(categorias);
                 }
 
                 return Ok("Nenhum registro gravado na base de dados!");
@@ -58,12 +64,13 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddCategoria([FromBody] Categoria categoria)
+        public async Task<ActionResult> AddCategoria([FromBody] CategoriaDTO categoriaDto)
         {
             try
             {
-                if (categoria != null)
+                if (categoriaDto != null)
                 {
+                    var categoria = _mapper.Map<Categoria>(categoriaDto); 
                     bool result = await _categoriaService.AddCategoria(categoria);
 
                     if (result)
@@ -81,12 +88,13 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateCategoria([FromBody] Categoria categoria)
+        public async Task<ActionResult> UpdateCategoria([FromBody] CategoriaDTO categoriaDto)
         {
             try
             {
-                if (categoria != null)
+                if (categoriaDto != null)
                 {
+                    var categoria = _mapper.Map<Categoria>(categoriaDto);
                     bool result = await _categoriaService.UpdateCategoria(categoria);
 
                     if (result)

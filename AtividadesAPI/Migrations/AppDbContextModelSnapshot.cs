@@ -33,16 +33,17 @@ namespace AtividadesAPI.Migrations
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataAlteracaoAtividade")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCriacaoAtividade")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescricaoAtividade")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("FinalAtividade")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InicioAtividade")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NomeAtividade")
                         .IsRequired()

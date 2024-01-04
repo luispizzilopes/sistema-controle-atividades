@@ -5,6 +5,8 @@ using AtividadesAPI.Services.Interfaces;
 using AtividadesAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using AtividadesAPI.Filters;
+using AutoMapper;
+using AtividadesAPI.Dto.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var mappingConfig = new MapperConfiguration(mp =>
+{
+    mp.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper); 
 
 builder.Services.AddScoped<FilterCategoria>();
 builder.Services.AddScoped<FilterAtividade>(); 

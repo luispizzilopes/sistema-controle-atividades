@@ -1,6 +1,8 @@
-﻿using AtividadesAPI.Filters;
+﻿using AtividadesAPI.Dto;
+using AtividadesAPI.Filters;
 using AtividadesAPI.Models;
 using AtividadesAPI.Services.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +15,16 @@ namespace AtividadesAPI.Controllers
     public class AtividadeController : ControllerBase
     {
         private readonly IAtividade _atividadeService;
+        private readonly IMapper _mapper; 
 
-        public AtividadeController(IAtividade atividadeService)
+        public AtividadeController(IAtividade atividadeService, IMapper mapper)
         {
             _atividadeService = atividadeService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Atividade>> GetByIdAtividade(int id)
+        public async Task<ActionResult<AtividadeDTO>> GetByIdAtividade(int id)
         {
             try
             {
@@ -28,7 +32,9 @@ namespace AtividadesAPI.Controllers
 
                 if(result != null)
                 {
-                    return Ok(result); 
+                    var atividadeDto = _mapper.Map<AtividadeDTO>(result);
+
+                    return Ok(atividadeDto); 
                 }
 
                 return BadRequest("Não foi encontrar uma atividade com o Id informado");
@@ -40,7 +46,7 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Atividade>>> GetAllAtividades()
+        public async Task<ActionResult<IEnumerable<AtividadeDTO>>> GetAllAtividades()
         {
             try
             {
@@ -48,6 +54,8 @@ namespace AtividadesAPI.Controllers
 
                 if (result.Count() > 0)
                 {
+                    var atividadesDTO = _mapper.Map<IEnumerable<AtividadeDTO>>(result); 
+
                     return Ok(result);
                 }
 
@@ -60,12 +68,13 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAtividade([FromBody] Atividade atividade)
+        public async Task<ActionResult> AddAtividade([FromBody] AtividadeDTO atividadeDto)
         {
             try
             {
-                if (atividade != null)
+                if (atividadeDto != null)
                 {
+                    var atividade = _mapper.Map<Atividade>(atividadeDto); 
                     bool result = await _atividadeService.AddAtividade(atividade);
 
                     if (result)
@@ -83,12 +92,13 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAtividade([FromBody] Atividade atividade)
+        public async Task<ActionResult> UpdateAtividade([FromBody] AtividadeDTO atividadeDto)
         {
             try
             {
-                if (atividade != null)
+                if (atividadeDto != null)
                 {
+                    var atividade = _mapper.Map<Atividade>(atividadeDto); 
                     bool result = await _atividadeService.UpdateAtividade(atividade);
 
                     if (result)

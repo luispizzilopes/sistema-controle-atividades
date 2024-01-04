@@ -48,8 +48,8 @@ namespace AtividadesAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeAtividade = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DescricaoAtividade = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    DataCriacaoAtividade = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteracaoAtividade = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    InicioAtividade = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FinalAtividade = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
