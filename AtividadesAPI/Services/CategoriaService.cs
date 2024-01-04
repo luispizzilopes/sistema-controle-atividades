@@ -8,12 +8,14 @@ namespace AtividadesAPI.Services
     public class CategoriaService : ICategoria
     {
         private readonly IRepository<Categoria> _repositoryCategoria;
-        private readonly IRepository<Atividade> _repositoryAtividade; 
+        private readonly IRepository<Atividade> _repositoryAtividade;
+        private readonly IRepository<RegistroLog> _repositoryRegistroLog;
 
-        public CategoriaService(IRepository<Categoria> repositoryCategoria, IRepository<Atividade> repositoryAtividade)
+        public CategoriaService(IRepository<Categoria> repositoryCategoria, IRepository<Atividade> repositoryAtividade, IRepository<RegistroLog> repositoryRegistroLog)
         {
             _repositoryCategoria = repositoryCategoria;
             _repositoryAtividade = repositoryAtividade;
+            _repositoryRegistroLog = repositoryRegistroLog;
         }
 
         public async Task<IEnumerable<Categoria>> GetAllCategoria()
@@ -33,6 +35,11 @@ namespace AtividadesAPI.Services
                 categoria.DataCriacaoCategoria = DateTime.Now;
                 await _repositoryCategoria.Add(categoria);
 
+                await _repositoryRegistroLog.Add(new RegistroLog
+                {
+                    DescricaoRegistro = $"Nova categoria '{categoria.DescricaoCategoria}' registrada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
+                });
+
                 return true;
             }
 
@@ -48,6 +55,11 @@ namespace AtividadesAPI.Services
                 categoria.DataAlteracaoCategoria = DateTime.Now;
 
                 await _repositoryCategoria.Update(categoria);
+
+                await _repositoryRegistroLog.Add(new RegistroLog
+                {
+                    DescricaoRegistro = $"Categoria de Id {categoria.CategoriaId} modificada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
+                });
 
                 return true;
             }
@@ -66,6 +78,11 @@ namespace AtividadesAPI.Services
                 if (categoria != null)
                 {
                     await _repositoryCategoria.Delete(categoria);
+
+                    await _repositoryRegistroLog.Add(new RegistroLog
+                    {
+                        DescricaoRegistro = $"Categoria de Id {categoria.CategoriaId} modificada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
+                    });
 
                     return true;
                 }

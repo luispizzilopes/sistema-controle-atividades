@@ -7,11 +7,13 @@ namespace AtividadesAPI.Services
 {
     public class AtividadeService : IAtividade
     {
-        private readonly IRepository<Atividade> _repositoryAtividade; 
+        private readonly IRepository<Atividade> _repositoryAtividade;
+        private readonly IRepository<RegistroLog> _repositoryRegistroLog; 
 
-        public AtividadeService(IRepository<Atividade> repositoryAtividade)
+        public AtividadeService(IRepository<Atividade> repositoryAtividade, IRepository<RegistroLog> repositoryRegistroLog)
         {
             _repositoryAtividade = repositoryAtividade;
+            _repositoryRegistroLog = repositoryRegistroLog;
         }
 
         public async Task<IEnumerable<Atividade>> GetAllAtividades()
@@ -30,6 +32,11 @@ namespace AtividadesAPI.Services
             {
                 atividade.DataCriacaoAtividade = DateTime.Now; 
                 await _repositoryAtividade.Add(atividade);
+
+                await _repositoryRegistroLog.Add(new RegistroLog
+                {
+                    DescricaoRegistro = $"Nova atividade '{atividade.DescricaoAtividade}' registrada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.Date}"
+                }); 
 
                 return true; 
             }
