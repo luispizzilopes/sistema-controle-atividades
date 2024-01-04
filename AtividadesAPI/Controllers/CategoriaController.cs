@@ -1,9 +1,11 @@
-﻿using AtividadesAPI.Models;
+﻿using AtividadesAPI.Filters;
+using AtividadesAPI.Models;
 using AtividadesAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtividadesAPI.Controllers
 {
+    [ServiceFilter(typeof(FilterCategoria))]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriaController : ControllerBase

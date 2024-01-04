@@ -4,6 +4,7 @@ using AtividadesAPI.Repositories.Interfaces;
 using AtividadesAPI.Services.Interfaces;
 using AtividadesAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using AtividadesAPI.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<FilterCategoria>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAtividade, AtividadeService>();
 builder.Services.AddScoped<ICategoria, CategoriaService>();
