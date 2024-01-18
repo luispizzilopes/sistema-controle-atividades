@@ -20,6 +20,10 @@
     justify-content: center;
 }
 
+.page-login small{
+    margin-top: 20px;
+}
+
 @media(max-width: 400px){
     .form-login{
         width: 300px;
