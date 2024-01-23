@@ -5,12 +5,13 @@
     width: 100%;
     height: 100vh;
     flex-direction: column;
+    text-align: center;
 }
 
 .form-login{
     display: flex;
     flex-direction: column;
-    height: 250px;
+    height: 270px;
     width: 500px;
     justify-content: space-around;
 }
@@ -20,11 +21,12 @@
     justify-content: center;
 }
 
-.page-login small{
-    margin-top: 20px;
+#extend-file{
+    position: relative;
+    bottom: -10px;
 }
 
-@media(max-width: 400px){
+@media(max-width: 600px){
     .form-login{
         width: 300px;
     }

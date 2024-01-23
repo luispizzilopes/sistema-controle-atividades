@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import OutlinedCard from "../components/Card";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
@@ -6,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ILogin } from "../interfaces/ILogin";
-
 import './styles/login.css';
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
 
     const submitRequestLogin = async () => {
         if (email != "" && password != "") {
-            let bodyLogin : ILogin = {
+            let bodyLogin: ILogin = {
                 email,
                 password
             };
@@ -40,39 +40,47 @@ export default function Login() {
     return (
         <React.Fragment>
             <div className="page-login">
-                <div className="logo-task">
-                    <TaskAltIcon sx={{
-                        width: "150px",
-                        height: "150px",
-                        marginBottom: "20px"
-                    }} />
-                </div>
-                <div className="form-login">
-                    <TextField
-                        label="E-mail:"
-                        variant="outlined"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)} />
+                <OutlinedCard>
+                    <div className="logo-task">
+                        <TaskAltIcon sx={{
+                            width: "150px",
+                            height: "150px",
+                            marginBottom: "20px"
+                        }} />
+                    </div>
+                    <div className="form-login">
+                        <TextField
+                            label="E-mail:"
+                            variant="outlined"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)} />
 
-                    <TextField
-                        label="Senha:"
-                        variant="outlined"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)} />
+                        <TextField
+                            label="Senha:"
+                            variant="outlined"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)} />
 
-                    <Button
-                        variant="contained"
-                        onClick={() => submitRequestLogin()}>
-                        Acessar
-                    </Button>
-                    <Button variant="contained"
-                        onClick={()=> navigate("register")}>
-                        Registrar-se
-                    </Button>
-                </div>
+                        <small style={{
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                            textAlign: "end"
+                        }}>Esqueceu sua senha?</small>
 
-                <small>2024 Copyright © - Desenvolvido por eXtend File.</small>
+                        <Button
+                            variant="contained"
+                            onClick={() => submitRequestLogin()}>
+                            Acessar
+                        </Button>
+                        <Button variant="contained"
+                            onClick={() => navigate("register")}>
+                            Registrar-se
+                        </Button>
+                    </div>
+
+                    <small id="extend-file">{new Date().getFullYear().toString()} Copyright © - Desenvolvido por eXtend File.</small>
+                </OutlinedCard>
             </div>
         </React.Fragment>
     );

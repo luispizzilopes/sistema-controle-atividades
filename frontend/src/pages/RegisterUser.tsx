@@ -8,6 +8,7 @@ import './styles/register.css';
 import axios from "axios";
 import { toast } from "react-toastify";
 import { IRegister } from "../interfaces/IRegister";
+import OutlinedCard from "../components/Card";
 
 export default function RegisterUser() {
     const [email, setEmail] = useState<String>("");
@@ -31,8 +32,8 @@ export default function RegisterUser() {
                     }
                 })
                 .catch(error => {
-                    toast.error("Verifique todos os campos e tente novamente!"); 
-                    console.error(error); 
+                    toast.error("Verifique todos os campos e tente novamente!");
+                    console.error(error);
                 });
         } else {
             toast.warn("Verifique todos os campos e tente novamente!");
@@ -42,52 +43,53 @@ export default function RegisterUser() {
     return (
         <React.Fragment>
             <div className="page-register">
-                <div className="logo-task">
-                    <TaskAltIcon sx={{
-                        width: "150px",
-                        height: "150px",
-                        marginBottom: "20px"
-                    }} />
-                </div>
-                <div className="form-register">
-                    <TextField
-                        label="E-mail:"
-                        variant="outlined"
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)} />
-
-                    <Tooltip
-                        title="A senha deve conter no mínimo 8 caracteres, um carácter maiúsculo e um carácter especial."
-                        placement="bottom-start">
+                <OutlinedCard>
+                    <div className="logo-task">
+                        <TaskAltIcon sx={{
+                            width: "150px",
+                            height: "150px",
+                            marginBottom: "20px"
+                        }} />
+                    </div>
+                    <div className="form-register">
                         <TextField
-                            label="Senha:"
+                            label="E-mail:"
                             variant="outlined"
-                            type="password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)} />
-                    </Tooltip>
+                            type="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)} />
 
+                        <Tooltip
+                            title="A senha deve conter no mínimo 8 caracteres, um carácter maiúsculo e um carácter especial."
+                            placement="bottom-start">
+                            <TextField
+                                label="Senha:"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)} />
+                        </Tooltip>
 
-                    <Tooltip
-                        title="A senha deve conter no mínimo 8 caracteres, um carácter maiúsculo e um carácter especial."
-                        placement="bottom-start">
-                        <TextField
-                            label="Confirmar Senha:"
-                            variant="outlined"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={e => setConfirmPassword(e.target.value)} />
-                    </Tooltip>
+                        <Tooltip
+                            title="A senha deve conter no mínimo 8 caracteres, um carácter maiúsculo e um carácter especial."
+                            placement="bottom-start">
+                            <TextField
+                                label="Confirmar Senha:"
+                                variant="outlined"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={e => setConfirmPassword(e.target.value)} />
+                        </Tooltip>
 
-                    <Button
-                        variant="contained"
-                        onClick={() => submitRequestRegisterUser()}>
-                        Registrar-se
-                    </Button>
-                </div>
+                        <Button
+                            variant="contained"
+                            onClick={() => submitRequestRegisterUser()}>
+                            Registrar-se
+                        </Button>
+                    </div>
 
-                <small>2024 Copyright © - Desenvolvido por eXtend File.</small>
+                    <small id="extend-file">{new Date().getFullYear().toString()} Copyright © - Desenvolvido por eXtend File.</small>
+                </OutlinedCard>
             </div>
         </React.Fragment>
     );

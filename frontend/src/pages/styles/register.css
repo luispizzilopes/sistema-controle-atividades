@@ -5,6 +5,7 @@
     width: 100%;
     height: 100vh;
     flex-direction: column;
+    text-align: center;
 }
 
 .form-register{
@@ -20,11 +21,12 @@
     justify-content: center;
 }
 
-.page-register small{
-    margin-top: 20px;
+.page-register #extend-file{
+    position: relative;
+    bottom: -10px;
 }
 
-@media(max-width: 400px){
+@media(max-width: 600px){
     .form-register{
         width: 300px;
     }
