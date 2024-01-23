@@ -92,6 +92,7 @@ builder.Services.AddAuthentication(
             builder.Configuration["Jwt:key"]))
     });
 
+builder.Services.AddCors(); 
 
 var app = builder.Build();
 
@@ -101,6 +102,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(c => 
+{
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
 
 app.UseHttpsRedirection();
 

@@ -3635,11 +3635,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\source\\repos\\AtividadesAPI\\AtividadesAPI\\AtividadesAPI.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\Desktop\\Sistema de Atividades\\backend\\AtividadesAPI\\AtividadesAPI.csproj",
       "projectName": "AtividadesAPI",
-      "projectPath": "C:\\Users\\PC\\source\\repos\\AtividadesAPI\\AtividadesAPI\\AtividadesAPI.csproj",
+      "projectPath": "C:\\Users\\PC\\Desktop\\Sistema de Atividades\\backend\\AtividadesAPI\\AtividadesAPI.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\source\\repos\\AtividadesAPI\\AtividadesAPI\\obj\\",
+      "outputPath": "C:\\Users\\PC\\Desktop\\Sistema de Atividades\\backend\\AtividadesAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",

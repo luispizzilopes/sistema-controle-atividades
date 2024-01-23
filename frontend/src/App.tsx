@@ -1,6 +1,8 @@
 import RoutesApp from './Routes.tsx';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -9,6 +11,17 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <RoutesApp />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"/>
       </ThemeProvider>
     </>
   )

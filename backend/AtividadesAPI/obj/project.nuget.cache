@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BSxVWHkNQXTisw/nwweWJuuHW6KnhKrCbAcd4HPMg0mOdFZKWoFL6siS/2eBCKoZ6lnakCrTCvL8LBia5xcC3g==",
+  "dgSpecHash": "AT0i9VfLrCP8NiMeHH/YIUMfOHrAyMHIosCt2niSxu1if9ZzkyGY7BwSD0sSIvcEY6O8LsDTWLwKkd7w8s5g7A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\source\\repos\\AtividadesAPI\\AtividadesAPI\\AtividadesAPI.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Desktop\\Sistema de Atividades\\backend\\AtividadesAPI\\AtividadesAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
