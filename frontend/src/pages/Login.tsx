@@ -72,7 +72,7 @@ export default function Login() {
                     </Button>
                 </div>
 
-                <small>2024 Copyright © - Desenvolvido por Luis Felipe.</small>
+                <small>2024 Copyright © - Desenvolvido por eXtend File.</small>
             </div>
         </React.Fragment>
     );
