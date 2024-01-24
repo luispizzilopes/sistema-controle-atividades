@@ -1,4 +1,5 @@
 ﻿using AtividadesAPI.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -64,7 +65,7 @@ namespace AtividadesAPI.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Login inválido!");
+                ModelState.AddModelError("Erro", "Verifique as credenciais informadas e tente novamente!");
                 return BadRequest(ModelState);
             }
         }
@@ -76,6 +77,7 @@ namespace AtividadesAPI.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
                 new Claim("meuPet", "pipoca"),
+                new Claim("meuPet", "mel"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -88,7 +90,7 @@ namespace AtividadesAPI.Controllers
 
             //Tempo de expiração do token
             var expipacao = _config["TokenConfiguration:ExpireHours"];
-            var expiration = DateTime.UtcNow.AddHours(double.Parse(expipacao));
+            var expiration = DateTime.Now.AddHours(double.Parse(expipacao));
 
             //Classe que representa o token e gera o token
             JwtSecurityToken token = new JwtSecurityToken(

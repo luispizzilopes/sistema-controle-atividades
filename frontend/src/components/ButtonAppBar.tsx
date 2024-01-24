@@ -9,6 +9,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -16,8 +17,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -90,11 +91,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-interface ButtonAppBar{
-  children: ReactNode; 
+interface ButtonAppBar {
+  children: ReactNode;
 }
 
-export default function MiniDrawer({ children } : ButtonAppBar) {
+export default function MiniDrawer({ children }: ButtonAppBar) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -105,6 +106,13 @@ export default function MiniDrawer({ children } : ButtonAppBar) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const navigate = useNavigate(); 
+
+  const exitSession = () => {
+    sessionStorage.clear();
+    navigate("/");
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -136,53 +144,49 @@ export default function MiniDrawer({ children } : ButtonAppBar) {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={()=> handleDrawerClose()}>
-              <ListItemButton
+          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => handleDrawerClose()}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Home"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
+          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { handleDrawerClose(), exitSession() }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Sair"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

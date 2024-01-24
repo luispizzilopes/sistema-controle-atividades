@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ILogin } from "../interfaces/ILogin";
+import DialogPassword from "../components/DialogPassword";
 import './styles/login.css';
 
 export default function Login() {
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
+    const [openModal, setOpenModal] = useState<boolean>(false); 
 
     const navigate = useNavigate();
 
@@ -62,7 +64,9 @@ export default function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)} />
 
-                        <small style={{
+                        <small 
+                        onClick={()=> setOpenModal(true)}
+                        style={{
                             textDecoration: "underline",
                             cursor: "pointer",
                             textAlign: "end"
@@ -82,6 +86,8 @@ export default function Login() {
                     <small id="extend-file">{new Date().getFullYear().toString()} Copyright © - Desenvolvido por eXtend File.</small>
                 </OutlinedCard>
             </div>
+
+            <DialogPassword open={openModal} setOpen={setOpenModal}/>
         </React.Fragment>
     );
 }

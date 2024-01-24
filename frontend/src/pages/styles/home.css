@@ -1,0 +1,28 @@
+.home-cards{
+    display: flex;
+    justify-content: space-around;
+}
+
+.home-cards div{
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 0px; 
+    margin-bottom: 0px; 
+    margin-top: 0px; 
+    padding: 16px;
+}
+
+.home-cards div p, .home-cards div h1, .home-cards div small{
+    margin: 0;
+}
+
+@media(max-width: 500px){
+    .home-cards{
+        flex-direction: column;
+    }
+
+    .home-cards div{
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}

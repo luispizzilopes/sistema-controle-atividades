@@ -1,0 +1,11 @@
+.error404{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.error404 h1, .error404 p{
+    margin: 2px;
+}
