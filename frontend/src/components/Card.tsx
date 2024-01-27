@@ -9,7 +9,7 @@ interface ICard {
 export default function OutlinedCard({ children }: ICard) {
     return (
         <React.Fragment>
-            <Card variant="outlined" sx={{
+            <Card sx={{
                 padding: "5px"
             }}>
                 <CardContent sx={{

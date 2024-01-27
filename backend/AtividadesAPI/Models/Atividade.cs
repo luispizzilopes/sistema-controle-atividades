@@ -11,11 +11,11 @@ namespace AtividadesAPI.Models
         [Required]
         [MinLength(5)]
         [MaxLength(50)]
-        public string NomeAtividade { get; set; }
+        public string NomeAtividade { get; set; } = null!;
 
         [Required]
         [MaxLength(255)]
-        public string DescricaoAtividade { get; set; }
+        public string DescricaoAtividade { get; set; } = null!; 
 
         [Required]
         public DateTime InicioAtividade { get; set; }

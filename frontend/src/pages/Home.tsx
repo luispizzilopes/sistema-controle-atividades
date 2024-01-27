@@ -61,7 +61,9 @@ export default function Home() {
                                 <small>Quantidade de Atividades cadastradas desde o início.</small>
                             </OutlinedCard>
                         </div>
-                        <Chart graficoAtividades={info?.graficoAtividades ?? []} graficoCategorias={info?.graficoCategorias ?? []} />
+                        <div className="grafico-home">
+                            <Chart graficoAtividades={info?.graficoAtividades ?? []} graficoCategorias={info?.graficoCategorias ?? []} />
+                        </div>
                     </div>
                 </ButtonAppBar>
 
