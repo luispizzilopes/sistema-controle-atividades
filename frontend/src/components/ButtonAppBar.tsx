@@ -18,6 +18,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
+import WorkIcon from '@mui/icons-material/Work';
+import CategoryIcon from '@mui/icons-material/Category';
 import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -144,7 +146,7 @@ export default function MiniDrawer({ children }: ButtonAppBar) {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => handleDrawerClose()}>
+          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { handleDrawerClose(), navigate("/home") }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -162,6 +164,48 @@ export default function MiniDrawer({ children }: ButtonAppBar) {
                 <HomeIcon />
               </ListItemIcon>
               <ListItemText primary={"Home"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { handleDrawerClose(), navigate("/atividades") }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <WorkIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Atividades"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { handleDrawerClose(), navigate("/categorias") }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Categorias"} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         </List>

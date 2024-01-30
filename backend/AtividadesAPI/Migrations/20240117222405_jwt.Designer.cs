@@ -13,7 +13,7 @@ namespace AtividadesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20240117222405_jwt")]
-    partial class jwt
+    partial class Jwt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

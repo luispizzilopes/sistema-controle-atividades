@@ -20,7 +20,7 @@ export default function Home() {
     const loadingInfoHome = async () => {
         await api.get("api/Home")
             .then(resp => setInfo(resp.data))
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
     }
 
     useEffect(() => {

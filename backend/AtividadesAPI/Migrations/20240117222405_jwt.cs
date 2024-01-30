@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AtividadesAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class jwt : Migration
+    public partial class Jwt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
