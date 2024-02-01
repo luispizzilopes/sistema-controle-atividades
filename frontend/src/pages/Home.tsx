@@ -12,15 +12,22 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import IHomeInfo from "../interfaces/IHomeInfo";
 import Chart from "../components/Chart";
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
     type HomeInfo = IHomeInfo | null;
     const [info, setInfo] = useState<HomeInfo>(null);
 
+    const navigate = useNavigate(); 
+
     const loadingInfoHome = async () => {
         await api.get("api/Home")
             .then(resp => setInfo(resp.data))
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(error);
+                navigate("/")
+            });
     }
 
     useEffect(() => {
@@ -32,7 +39,10 @@ export default function Home() {
             <div className="page-home">
                 <ButtonAppBar>
                     <div>
-                        <h1>Dashboard</h1>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <HomeIcon style={{ marginRight: "10px" }} />
+                            <h1>Dashboard</h1>
+                        </div>
                         <div className="home-cards">
                             <OutlinedCard>
                                 <WorkIcon />

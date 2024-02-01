@@ -8,17 +8,21 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { ILogin } from "../interfaces/ILogin";
 import DialogPassword from "../components/DialogPassword";
+import CircularProgress from '@mui/material/CircularProgress';
 import './styles/login.css';
 
 export default function Login() {
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
-    const [openModal, setOpenModal] = useState<boolean>(false); 
+    const [openModal, setOpenModal] = useState<boolean>(false);
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const submitRequestLogin = async () => {
         if (email != "" && password != "") {
+            setLoading(true);
             let bodyLogin: ILogin = {
                 email,
                 password
@@ -64,13 +68,13 @@ export default function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)} />
 
-                        <small 
-                        onClick={()=> setOpenModal(true)}
-                        style={{
-                            textDecoration: "underline",
-                            cursor: "pointer",
-                            textAlign: "end"
-                        }}>Esqueceu sua senha?</small>
+                        <small
+                            onClick={() => setOpenModal(true)}
+                            style={{
+                                textDecoration: "underline",
+                                cursor: "pointer",
+                                textAlign: "end"
+                            }}>Esqueceu sua senha?</small>
 
                         <Button
                             variant="contained"
@@ -87,7 +91,17 @@ export default function Login() {
                 </OutlinedCard>
             </div>
 
-            <DialogPassword open={openModal} setOpen={setOpenModal}/>
+            {loading ?
+                <div className="loading-login">
+                    <div>
+                        <CircularProgress />
+                    </div>
+                </div>
+                :
+                <></>
+            }
+
+            <DialogPassword open={openModal} setOpen={setOpenModal} />
         </React.Fragment>
     );
 }

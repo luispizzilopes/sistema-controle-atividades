@@ -1,0 +1,19 @@
+.cabecalho-categorias{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media(max-width: 600px){
+    .cabecalho-categorias{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin-bottom: 20px;
+    }
+
+    .cabecalho-categorias h1{
+        width: 10px;
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,8 @@
+.page-atividade .grupo-botoes{
+    display: flex;
+    flex-direction: column;
+}
+
+.page-atividade .grupo-botoes button{
+    margin-top: 20px;
+}

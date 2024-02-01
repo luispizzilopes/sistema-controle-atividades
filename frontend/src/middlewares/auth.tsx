@@ -9,7 +9,6 @@ export default function auth() {
         if (dateExpiration && dateExpiration <= dateTime) {
             return false; 
         } else {
-            // Lógica a ser executada quando o token estiver válido
             return true; 
         }
     } else {

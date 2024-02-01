@@ -11,8 +11,8 @@ import { Button } from "@mui/material";
 import { toast } from "react-toastify";
 import CircleProgressBar from "../components/CircleProgressBar";
 import moment from "moment";
-
 import './styles/nova-atividade.css'
+import { useNavigate } from "react-router-dom";
 
 type Categoria = [ICategoria] | [];
 
@@ -27,10 +27,15 @@ export default function NovaAtividade() {
     const [etapa, setEtapa] = useState<number>(1);
     const [tempoDeAtividade, setTempoDeAtividade] = useState<number>(0);
 
+    const navigate = useNavigate();
+
     const carregarCategorias = async () => {
         await api.get("api/Categoria")
             .then(resp => setCategorias(resp.data))
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                navigate("/");
+            })
     }
 
     const handleCategoria = (event: SelectChangeEvent) => {
@@ -40,10 +45,29 @@ export default function NovaAtividade() {
     const handleEtapa = () => {
         if (categoria != "" && categoria != null && nomeAtividade != "" && nomeAtividade != null) {
             setEtapa(2);
-            setDataInicio(new Date());
+            let dataInicio = new Date();
+            setDataInicio(dataInicio);
         } else {
             toast.warn("Verifique todos os campos e tente novamente!");
         }
+    }
+
+    const enviarNovaAtividade = async () => {
+        await api.post("api/Atividade", {
+            nomeAtividade: nomeAtividade,
+            descricaoAtividade: descricaoAtividade,
+            inicioAtividade: dataInicio,
+            finalAtividade: new Date(),
+            categoriaId: categoria
+        })
+            .then(resp => {
+                toast.success(resp.data);
+                navigate("/atividades");
+            })
+            .catch(error => {
+                console.error(error);
+                toast.error("Erro ao registrar uma nova atividade");
+            })
     }
 
     function converterSegundosParaFormatoDeHoras(segundos: number): string {
@@ -108,7 +132,7 @@ export default function NovaAtividade() {
                                 <p>Descrição da Atividade</p>
                                 <TextField
                                     value={descricaoAtividade}
-                                    onChange={e=> setDescricaoAtividade(e.target.value)}
+                                    onChange={e => setDescricaoAtividade(e.target.value)}
                                     multiline
                                     rows={3}
                                     inputProps={{ maxLength: 255 }}
@@ -140,8 +164,17 @@ export default function NovaAtividade() {
                                 <p><b> Categoria da Atividade: </b>{categorias.find(c => c.categoriaId.toString() == categoria)?.nomeCategoria}</p>
                                 <p><b> Início da Atividade: </b>{moment(dataInicio).format("DD/MM/YYYY HH:mm:ss")}</p>
                                 <p><b> Descrição da Atividade: </b>{descricaoAtividade}</p>
-                                <Button variant="contained">Cancelar</Button>
-                                <Button variant="contained">Finalizar</Button>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => navigate("/home")}>
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    onClick={()=> enviarNovaAtividade()}
+                                >
+                                    Finalizar
+                                </Button>
                             </div>
                         </div>
                     </div>

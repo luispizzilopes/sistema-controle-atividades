@@ -1,0 +1,8 @@
+.page-categoria .grupo-botoes{
+    display: flex;
+    flex-direction: column;
+}
+
+.page-categoria .grupo-botoes button{
+    margin-top: 20px;
+}

@@ -70,7 +70,7 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAtividade([FromBody] AtividadeDTO atividadeDto)
+        public async Task<ActionResult> AddAtividade([FromBody] NovaAtividadeDTO atividadeDto)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAtividade([FromBody] AtividadeDTO atividadeDto)
+        public async Task<ActionResult> UpdateAtividade([FromBody] NovaAtividadeDTO atividadeDto)
         {
             try
             {

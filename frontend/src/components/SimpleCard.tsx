@@ -14,6 +14,7 @@ export default function SimpleCard({ children }: ICard) {
                 width: "100%"
             }}>
                 <CardContent sx={{
+                           padding: "24px",
                     margin: "5px"
                 }}>
                     {children}

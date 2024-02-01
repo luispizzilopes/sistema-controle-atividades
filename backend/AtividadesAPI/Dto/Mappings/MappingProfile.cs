@@ -8,6 +8,7 @@ namespace AtividadesAPI.Dto.Mappings
         public MappingProfile() 
         {
             CreateMap<Atividade, AtividadeDTO>().ReverseMap();
+            CreateMap<Atividade, NovaAtividadeDTO>().ReverseMap(); 
             CreateMap<Categoria, CategoriaDTO>().ReverseMap(); 
         }
     }

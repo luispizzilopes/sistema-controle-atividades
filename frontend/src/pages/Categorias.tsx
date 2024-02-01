@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import ButtonAppBar from "../components/ButtonAppBar";
-import IAtividade from "../interfaces/IAtividade";
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import moment from "moment";
-import './styles/atividades.css'
+import './styles/categorias.css'
 import { Button, Typography } from "@mui/material";
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SimpleCard from "../components/SimpleCard";
-import WorkIcon from '@mui/icons-material/Work';
+import ICategoria from "../interfaces/ICategoria";
+import DialogNovaCategoria from "../components/DialogNovaCategoria";
+import CategoryIcon from '@mui/icons-material/Category';
 import Footer from "../components/Footer";
 
-type Atividade = [IAtividade] | [];
+type Categoria = [ICategoria] | [];
 
-export default function Atividades() {
-    const [atividades, setAtividades] = useState<Atividade>([]);
+export default function Categorias() {
+    const [categorias, setCategorias] = useState<Categoria>([]);
+    const [open, setOpen] = useState<boolean>(false)
     const navigate = useNavigate();
 
-    const carregarAtividades = async () => {
-        await api.get("api/Atividade")
-            .then(resp => setAtividades(resp.data))
+    const carregarCategorias = async () => {
+        await api.get("api/Categoria")
+            .then(resp => setCategorias(resp.data))
             .catch(error => {
                 console.error(error);
                 navigate("/");
@@ -38,50 +40,48 @@ export default function Atividades() {
     };
 
     const columns: GridColDef[] = [
-        { field: 'atividadeId', headerName: 'Id', flex: 1 },
-        { field: 'nomeAtividade', headerName: 'Nome Atividade', flex: 2 },
-        { field: 'descricaoAtividade', headerName: 'Descrição Atividade', flex: 2 },
-        { field: 'inicioAtividade', headerName: 'Início da Atividade', flex: 3 },
-        { field: 'finalAtividade', headerName: 'Final da Atividade', flex: 3 },
-        { field: 'nomeCategoria', headerName: 'Categoria', flex: 2 },
+        { field: 'categoriaId', headerName: 'Id', flex: 1 },
+        { field: 'nomeCategoria', headerName: 'Nome Categoria', flex: 2 },
+        { field: 'descricaoCategoria', headerName: 'Descrição Categoria', flex: 3 },
+        { field: 'dataCriacaoCategoria', headerName: 'Data de Cadastro', flex: 3 },
+        { field: 'dataAlteracaoCategoria', headerName: 'Data de Alteração', flex: 3 },
     ];
 
-    const rows = atividades.map((atividade) => ({
-        atividadeId: atividade.atividadeId,
-        nomeAtividade: atividade.nomeAtividade,
-        descricaoAtividade: atividade.descricaoAtividade,
-        inicioAtividade: moment(atividade.inicioAtividade).format("DD/MM/YYYY HH:mm:ss"),
-        finalAtividade: moment(atividade.finalAtividade).format("DD/MM/YYYY HH:mm:ss"),
-        nomeCategoria: atividade.nomeCategoria,
+    const rows = categorias.map((categoria) => ({
+        categoriaId: categoria.categoriaId,
+        nomeCategoria: categoria.nomeCategoria,
+        descricaoCategoria: categoria.descricaoCategoria,
+        dataCriacaoCategoria: moment(categoria.dataCriacaoCategoria).format("DD/MM/YYYY HH:mm:ss"),
+        dataAlteracaoCategoria: categoria.dataAlteracaoCategoria != undefined ? moment(categoria.dataAlteracaoCategoria).format("DD/MM/YYYY HH:mm:ss") : "-",
     }));
 
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-        navigate(`/atividade/${params.row.atividadeId}`)
+        navigate(`/categoria/${params.row.categoriaId}`)
     };
 
     useEffect(() => {
-        carregarAtividades();
+        carregarCategorias();
     }, [])
 
     return (
         <React.Fragment>
-            <div className="atividades-page">
+            <div className="categorias-page">
                 <ButtonAppBar>
                     <div>
-                        <div className="cabecalho-atividades">
+                        <div className="cabecalho-categorias">
                             <div style={{ display: "flex", alignItems: "center" }}>
-                                <WorkIcon style={{ marginRight: "10px" }} />
-                                <h1>Atividades Cadastradas</h1>
+                                <CategoryIcon style={{ marginRight: "10px" }} />
+                                <h1>Categorias Cadastradas</h1>
                             </div>
-                            <Button variant="contained" onClick={() => navigate("/nova-atividade")}>Nova Atividade</Button>
+                            <Button variant="contained" onClick={() => setOpen(true)}>Nova Categoria</Button>
                         </div>
-                        {atividades && atividades.length > 0 ?
+                        {categorias && categorias.length > 0 ?
                             <div style={{ height: '100%', width: '100%', overflowX: "auto" }}>
-                                <small>* Para visualizar ou editar uma atividade clique em cima de sua linha!</small>
+                                <small>* Para visualizar ou editar uma categoria clique em cima de sua linha!</small>
                                 <DataGrid
                                     onRowClick={handleRowClick}
                                     rows={rows}
-                                    getRowId={(row) => row.atividadeId}
+                                    getRowId={(row) => row.categoriaId}
                                     columns={columns}
                                     localeText={localizedTextsMap}
                                     initialState={{
@@ -101,17 +101,18 @@ export default function Atividades() {
                                     alignItems: "center",
                                     marginBottom: "10px"
                                 }}>
-                                    Nenhuma Atividade Cadastrada!
+                                    Nenhuma Categoria Cadastrada!
                                     <SentimentDissatisfiedIcon sx={{ marginLeft: "10px" }} />
                                 </Typography>
-                                <small>Para registrar uma nova atividade clique no botão "Nova Atividade".</small>
+                                <small>Para registrar uma nova Categoria clique no botão "Nova Categoria".</small>
                             </SimpleCard>
                         }
                     </div>
                 </ButtonAppBar>
-
-                <Footer />
             </div>
+
+            <DialogNovaCategoria open={open} setOpen={setOpen} carregarCategorias={carregarCategorias} />
+            <Footer/>
         </React.Fragment >
     );
 }
