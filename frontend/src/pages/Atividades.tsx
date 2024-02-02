@@ -11,6 +11,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SimpleCard from "../components/SimpleCard";
 import WorkIcon from '@mui/icons-material/Work';
 import Footer from "../components/Footer";
+import { encryptText, decryptText } from "../Encrypt/Encrypt";
 
 type Atividade = [IAtividade] | [];
 
@@ -19,7 +20,7 @@ export default function Atividades() {
     const navigate = useNavigate();
 
     const carregarAtividades = async () => {
-        await api.get("api/Atividade")
+        await api.get(`api/Atividade/${JSON.parse(decryptText(sessionStorage.getItem("session")!)).id}`)
             .then(resp => setAtividades(resp.data))
             .catch(error => {
                 console.error(error);
@@ -56,7 +57,7 @@ export default function Atividades() {
     }));
 
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-        navigate(`/atividade/${params.row.atividadeId}`)
+        navigate(`/atividade/${encryptText(params.row.atividadeId.toString())}`)
     };
 
     useEffect(() => {

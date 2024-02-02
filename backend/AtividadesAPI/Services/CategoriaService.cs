@@ -1,4 +1,5 @@
-﻿using AtividadesAPI.Models;
+﻿using AtividadesAPI.Context;
+using AtividadesAPI.Models;
 using AtividadesAPI.Repositories.Interfaces;
 using AtividadesAPI.Services.Interfaces;
 using System.Linq;
@@ -18,14 +19,22 @@ namespace AtividadesAPI.Services
             _repositoryRegistroLog = repositoryRegistroLog;
         }
 
-        public async Task<IEnumerable<Categoria>> GetAllCategoria()
+        public async Task<IEnumerable<Categoria>> GetAllCategoria(string userId)
         {
-            return await _repositoryCategoria.GetAll();
+            var categorias = await _repositoryCategoria.GetAll();
+            return categorias.Where(c => c.UserId == userId).ToList();
         }
 
-        public async Task<Categoria> GetByIdCategoria(int id)
+        public async Task<Categoria> GetByIdCategoria(string userId,int id)
         {
-            return await _repositoryCategoria.GetById(c => c.CategoriaId == id);
+            var categoria = await _repositoryCategoria.GetById(c => c.CategoriaId == id);
+            
+            if(categoria.UserId == userId)
+            {
+                return categoria;
+            }
+
+            return null; 
         }
 
         public async Task<bool> AddCategoria(Categoria categoria)
@@ -37,6 +46,7 @@ namespace AtividadesAPI.Services
 
                 await _repositoryRegistroLog.Add(new RegistroLog
                 {
+                    UserId = categoria.UserId,
                     DescricaoRegistro = $"Nova categoria '{categoria.DescricaoCategoria}' registrada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
                 });
 
@@ -58,6 +68,7 @@ namespace AtividadesAPI.Services
 
                 await _repositoryRegistroLog.Add(new RegistroLog
                 {
+                    UserId = categoria.UserId,
                     DescricaoRegistro = $"Categoria de Id {categoria.CategoriaId} modificada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
                 });
 
@@ -81,6 +92,7 @@ namespace AtividadesAPI.Services
 
                     await _repositoryRegistroLog.Add(new RegistroLog
                     {
+                        UserId = categoria.UserId,
                         DescricaoRegistro = $"Categoria de Id {categoria.CategoriaId} modificada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
                     });
 

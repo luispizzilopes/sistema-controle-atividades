@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './GlobalStyle.css';
 
 function App() {
 
@@ -30,7 +31,7 @@ function App() {
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-  },
+  }
 });
 
 export default App

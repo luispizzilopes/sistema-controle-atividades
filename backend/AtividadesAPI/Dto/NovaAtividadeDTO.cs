@@ -3,6 +3,7 @@
     public class NovaAtividadeDTO
     {
         public int AtividadeId { get; set; }
+        public string UserId { get; set; } = null!; 
         public string NomeAtividade { get; set; } = null!;
         public string DescricaoAtividade { get; set; } = null!;
         public DateTime InicioAtividade { get; set; }

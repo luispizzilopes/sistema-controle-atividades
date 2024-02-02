@@ -1,8 +1,10 @@
-﻿using AtividadesAPI.Dto;
+﻿using AtividadesAPI.Context;
+using AtividadesAPI.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,15 +19,18 @@ namespace AtividadesAPI.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _config;
+        private readonly AppDbContext _context;
 
         public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = configuration;
+            _context = context;
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public ActionResult<string> Get()
         {
@@ -33,11 +38,11 @@ namespace AtividadesAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> RegisterUser([FromBody] UsuarioDTO model)
+        public async Task<ActionResult> RegisterUser([FromBody] NovoUsuarioDTO model)
         {
             var user = new IdentityUser
             {
-                UserName = model.Email,
+                UserName = model.Nome,
                 Email = model.Email,
                 EmailConfirmed = true
             };
@@ -50,7 +55,7 @@ namespace AtividadesAPI.Controllers
             }
 
             await _signInManager.SignInAsync(user, false);
-            return Ok(GeraToken(model));
+            return Ok(await GeraToken(new UsuarioDTO { Email = model.Email, Password = model.Password }));
         }
 
         [HttpPost("login")]
@@ -61,7 +66,7 @@ namespace AtividadesAPI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(GeraToken(userInfo));
+                return Ok(await GeraToken(userInfo));
             }
             else
             {
@@ -70,7 +75,7 @@ namespace AtividadesAPI.Controllers
             }
         }
 
-        private UsuarioTokenDTO GeraToken(UsuarioDTO userInfo)
+        private async Task<UsuarioTokenDTO> GeraToken(UsuarioDTO userInfo)
         {
             //define declarações do usuário
             var claims = new[]
@@ -83,14 +88,14 @@ namespace AtividadesAPI.Controllers
 
             //gera uma chave com base em um algoritmo simetrico
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_config["Jwt:key"]));
+                Encoding.UTF8.GetBytes(_config["Jwt:key"]!));
 
             //gera uma assinatura digital do token usando o algoritmo hmac e a chave privada
             var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             //Tempo de expiração do token
-            var expipacao = _config["TokenConfiguration:ExpireHours"];
-            var expiration = DateTime.Now.AddHours(double.Parse(expipacao));
+            var expiracao = _config["TokenConfiguration:ExpireHours"]!;
+            var expiration = DateTime.Now.AddHours(double.Parse(expiracao));
 
             //Classe que representa o token e gera o token
             JwtSecurityToken token = new JwtSecurityToken(
@@ -103,6 +108,9 @@ namespace AtividadesAPI.Controllers
             //retorna os dados com o token e informações
             return new UsuarioTokenDTO()
             {
+                Id = await _context.Users.Where(u => u.Email == userInfo.Email).Select(u => u!.Id).FirstOrDefaultAsync(), 
+                Name = await _context.Users.Where(u => u.Email == userInfo.Email).Select(u => u!.UserName).FirstOrDefaultAsync(),
+                Email = userInfo.Email,
                 Authenticated = true,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = expiration,

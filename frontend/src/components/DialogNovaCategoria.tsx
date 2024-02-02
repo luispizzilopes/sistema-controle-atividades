@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TextField } from '@mui/material';
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import { decryptText } from '../Encrypt/Encrypt';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -34,6 +35,7 @@ export default function DialogNovaCategoria({ open, setOpen, carregarCategorias 
         if(nomeCategoria != "" && descricaoCategoria != ""){
             await api.post("api/Categoria", {
                 nomeCategoria: nomeCategoria,
+                userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id, 
                 descricaoCategoria: descricaoCategoria,
                 dataCriacaoCategoria: new Date()
             })

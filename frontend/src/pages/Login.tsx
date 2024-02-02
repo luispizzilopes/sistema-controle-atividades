@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { ILogin } from "../interfaces/ILogin";
 import DialogPassword from "../components/DialogPassword";
 import CircularProgress from '@mui/material/CircularProgress';
+import { encryptText } from "../Encrypt/Encrypt";
 import './styles/login.css';
 
 export default function Login() {
@@ -33,13 +34,18 @@ export default function Login() {
                     if (resp.status === 200 && resp.data.authenticated === true) {
                         sessionStorage.setItem("token", resp.data.token);
                         sessionStorage.setItem("expiration", resp.data.expiration);
+                        sessionStorage.setItem("session", encryptText(JSON.stringify(resp.data)))
 
                         navigate("/home")
                     } else {
                         toast.success("Não foi possível realizar o Login!");
+                        setLoading(false);
                     }
                 })
-                .catch(error => toast.error(error.response.data.Erro[0]));
+                .catch(error => {
+                    setLoading(false);
+                    toast.error(error.response.data.Erro[0]);
+                });
         }
     }
 

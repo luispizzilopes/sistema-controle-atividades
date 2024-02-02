@@ -5,6 +5,7 @@ namespace AtividadesAPI.Dto
     public class CategoriaDTO
     {
         public int CategoriaId { get; set; }
+        public string UserId { get; set; } = null!; 
         public string NomeCategoria { get; set; }
         public string DescricaoCategoria { get; set; }
         public DateTime DataCriacaoCategoria { get; set; }

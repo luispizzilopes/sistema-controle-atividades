@@ -12,14 +12,16 @@ import OutlinedCard from "../components/Card";
 
 export default function RegisterUser() {
     const [email, setEmail] = useState<String>("");
+    const [nome, setNome] = useState<String>("");
     const [password, setPassword] = useState<String>("");
     const [confirmPassword, setConfirmPassword] = useState<String>("");
 
     const navigate = useNavigate();
 
     const submitRequestRegisterUser = async () => {
-        if (email != "" && password != "" && confirmPassword != "" && (password === confirmPassword)) {
+        if (email != "" && nome !== "" && password != "" && confirmPassword != "" && (password === confirmPassword)) {
             let bodyLogin: IRegister = {
+                nome,
                 email,
                 password
             };
@@ -28,7 +30,7 @@ export default function RegisterUser() {
                 .then(resp => {
                     if (resp.status === 200) {
                         toast.success("Usuário registrado com sucesso!");
-                        navigate("/home");
+                        navigate("/");
                     }
                 })
                 .catch(error => {
@@ -52,6 +54,13 @@ export default function RegisterUser() {
                         }} />
                     </div>
                     <div className="form-register">
+                        <TextField
+                            label="Nome Completo:"
+                            variant="outlined"
+                            type="text"
+                            value={nome}
+                            onChange={e => setNome(e.target.value)} />
+
                         <TextField
                             label="E-mail:"
                             variant="outlined"
@@ -85,6 +94,11 @@ export default function RegisterUser() {
                             variant="contained"
                             onClick={() => submitRequestRegisterUser()}>
                             Registrar-se
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => navigate("/")}>
+                            Voltar
                         </Button>
                     </div>
 

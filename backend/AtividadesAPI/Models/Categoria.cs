@@ -20,7 +20,10 @@ namespace AtividadesAPI.Models
         [Required]
         public DateTime DataCriacaoCategoria { get; set; }
 
-        public DateTime? DataAlteracaoCategoria { get; set; } = null; 
+        public DateTime? DataAlteracaoCategoria { get; set; } = null;
+
+        [Required]
+        public string UserId { get; set; } = null!;
 
         [JsonIgnore]
         public ICollection<Atividade>? Atividades { get; set; }

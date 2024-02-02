@@ -25,12 +25,12 @@ namespace AtividadesAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<AtividadeDTO>> GetByIdAtividade(int id)
+        [HttpGet("{userId}/{id:int}")]
+        public async Task<ActionResult<AtividadeDTO>> GetByIdAtividade([FromRoute]string userId, [FromRoute]int id)
         {
             try
             {
-                var result = await _atividadeService.GetByIdAtividade(id); 
+                var result = await _atividadeService.GetByIdAtividade(userId, id); 
 
                 if(result != null)
                 {
@@ -47,21 +47,16 @@ namespace AtividadesAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AtividadeDTO>>> GetAllAtividades()
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<AtividadeDTO>>> GetAllAtividades([FromRoute]string userId)
         {
             try
             {
-                var result = await _atividadeService.GetAllAtividades();
+                var result = await _atividadeService.GetAllAtividades(userId);
 
-                if (result.Count() > 0)
-                {
-                    var atividadesDTO = _mapper.Map<IEnumerable<AtividadeDTO>>(result); 
+                var atividadesDTO = _mapper.Map<IEnumerable<AtividadeDTO>>(result);
 
-                    return Ok(result);
-                }
-
-                return Ok("Nenhum registro gravado na base de dados!");
+                return Ok(result);
             }
             catch (Exception ex)
             {

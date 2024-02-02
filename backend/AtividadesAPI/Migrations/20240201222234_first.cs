@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AtividadesAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Jwt : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,37 @@ namespace AtividadesAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categorias",
+                columns: table => new
+                {
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeCategoria = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DescricaoCategoria = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    DataCriacaoCategoria = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAlteracaoCategoria = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorias", x => x.CategoriaId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RegistroLoges",
+                columns: table => new
+                {
+                    RegistroId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescricaoRegistro = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RegistroLoges", x => x.RegistroId);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +187,30 @@ namespace AtividadesAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Atividades",
+                columns: table => new
+                {
+                    AtividadeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NomeAtividade = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DescricaoAtividade = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    InicioAtividade = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FinalAtividade = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Atividades", x => x.AtividadeId);
+                    table.ForeignKey(
+                        name: "FK_Atividades_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
+                        principalColumn: "CategoriaId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +249,11 @@ namespace AtividadesAPI.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Atividades_CategoriaId",
+                table: "Atividades",
+                column: "CategoriaId");
         }
 
         /// <inheritdoc />
@@ -215,10 +275,19 @@ namespace AtividadesAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Atividades");
+
+            migrationBuilder.DropTable(
+                name: "RegistroLoges");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categorias");
         }
     }
 }

@@ -21,9 +21,10 @@ namespace AtividadesAPI.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<AtividadeDTO>> GetAllAtividades()
+        public async Task<IEnumerable<AtividadeDTO>> GetAllAtividades(string userId)
         {
             return await _context.Atividades
+                .Where(a => a.UserId == userId)
                 .Include(a => a.Categoria)
                 .Select(a => new AtividadeDTO
                 {
@@ -36,10 +37,10 @@ namespace AtividadesAPI.Services
                 }).ToListAsync();
         }
 
-        public async Task<AtividadeDTO?> GetByIdAtividade(int id)
+        public async Task<AtividadeDTO?> GetByIdAtividade(string userId, int id)
         {
             return await _context.Atividades
-                .Where(a => a.AtividadeId == id)
+                .Where(a => a.AtividadeId == id && a.UserId == userId)
                   .Include(a => a.Categoria)
                   .Select(a => new AtividadeDTO
                   {
@@ -56,11 +57,13 @@ namespace AtividadesAPI.Services
         {
             if(atividade != null)
             {
-                atividade.FinalAtividade = DateTime.Now; 
+                atividade.FinalAtividade = DateTime.Now;
+                atividade.InicioAtividade = atividade.InicioAtividade.AddHours(-3);
                 await _repositoryAtividade.Add(atividade);
 
                 await _repositoryRegistroLog.Add(new RegistroLog
                 {
+                    UserId = atividade.UserId,
                     DescricaoRegistro = $"Nova atividade '{atividade.DescricaoAtividade}' registrada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
                 }); 
 
@@ -76,10 +79,13 @@ namespace AtividadesAPI.Services
 
             if (atividadeExiste)
             {
+                atividade.CategoriaId = await _context.Atividades.Where(a => a.AtividadeId == atividade.AtividadeId).Select(a => a.CategoriaId).FirstOrDefaultAsync(); 
+
                 await _repositoryAtividade.Update(atividade);
 
                 await _repositoryRegistroLog.Add(new RegistroLog
                 {
+                    UserId = atividade.UserId,
                     DescricaoRegistro = $"Atividade de Id {atividade.AtividadeId} modificada na base de dados às {DateTime.Now.TimeOfDay} do dia {DateTime.Now.ToString("dd/MM/yyyy")}"
                 });
 

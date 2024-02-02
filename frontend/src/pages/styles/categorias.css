@@ -12,6 +12,10 @@
         margin-bottom: 20px;
     }
 
+    .cabecalho-categorias div svg{
+        display: none; 
+    }
+
     .cabecalho-categorias h1{
         width: 10px;
         margin-bottom: 10px;

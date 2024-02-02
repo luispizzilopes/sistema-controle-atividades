@@ -23,12 +23,12 @@ namespace AtividadesAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<CategoriaDTO>> GetByIdCategoria(int id)
+        [HttpGet("{userId}/{id:int}")]
+        public async Task<ActionResult<CategoriaDTO>> GetByIdCategoria([FromRoute] string userId, [FromRoute]int id)
         {
             try
             {
-                var result = await _categoriaService.GetByIdCategoria(id);
+                var result = await _categoriaService.GetByIdCategoria(userId, id);
 
                 if (result != null)
                 {
@@ -44,20 +44,15 @@ namespace AtividadesAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetAllCategoria()
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetAllCategoria([FromRoute] string userId)
         {
             try
             {
-                var result = await _categoriaService.GetAllCategoria();
+                var result = await _categoriaService.GetAllCategoria(userId);
 
-                if (result.Count() > 0)
-                {
-                    var categorias = _mapper.Map<IEnumerable<CategoriaDTO>>(result); 
-                    return Ok(categorias);
-                }
-
-                return Ok("Nenhum registro gravado na base de dados!");
+                var categorias = _mapper.Map<IEnumerable<CategoriaDTO>>(result);
+                return Ok(categorias);
             }
             catch (Exception ex)
             {

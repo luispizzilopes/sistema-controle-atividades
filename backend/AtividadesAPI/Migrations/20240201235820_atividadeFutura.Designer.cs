@@ -4,6 +4,7 @@ using AtividadesAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtividadesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240201235820_atividadeFutura")]
+    partial class atividadeFutura
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,39 +61,6 @@ namespace AtividadesAPI.Migrations
                     b.HasIndex("CategoriaId");
 
                     b.ToTable("Atividades");
-                });
-
-            modelBuilder.Entity("AtividadesAPI.Models.AtividadeFutura", b =>
-                {
-                    b.Property<int>("AtividadeFuturaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AtividadeFuturaId"));
-
-                    b.Property<DateTime>("DataPrevista")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataRealizada")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DescricaoAtividade")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("NomeAtividade")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AtividadeFuturaId");
-
-                    b.ToTable("AtividadesFuturas");
                 });
 
             modelBuilder.Entity("AtividadesAPI.Models.Categoria", b =>

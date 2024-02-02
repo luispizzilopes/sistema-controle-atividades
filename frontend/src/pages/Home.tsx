@@ -14,6 +14,7 @@ import IHomeInfo from "../interfaces/IHomeInfo";
 import Chart from "../components/Chart";
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from "react-router-dom";
+import { decryptText } from "../Encrypt/Encrypt";
 
 export default function Home() {
     type HomeInfo = IHomeInfo | null;
@@ -22,7 +23,7 @@ export default function Home() {
     const navigate = useNavigate(); 
 
     const loadingInfoHome = async () => {
-        await api.get("api/Home")
+        await api.get(`api/Home/${JSON.parse(decryptText(sessionStorage.getItem("session")!)).id}`)
             .then(resp => setInfo(resp.data))
             .catch(error => {
                 console.error(error);

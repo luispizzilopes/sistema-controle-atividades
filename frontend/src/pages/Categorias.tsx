@@ -12,6 +12,7 @@ import ICategoria from "../interfaces/ICategoria";
 import DialogNovaCategoria from "../components/DialogNovaCategoria";
 import CategoryIcon from '@mui/icons-material/Category';
 import Footer from "../components/Footer";
+import { decryptText } from "../Encrypt/Encrypt";
 
 type Categoria = [ICategoria] | [];
 
@@ -21,7 +22,7 @@ export default function Categorias() {
     const navigate = useNavigate();
 
     const carregarCategorias = async () => {
-        await api.get("api/Categoria")
+        await api.get(`api/Categoria/${JSON.parse(decryptText(sessionStorage.getItem("session")!)).id}`)
             .then(resp => setCategorias(resp.data))
             .catch(error => {
                 console.error(error);

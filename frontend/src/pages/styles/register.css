@@ -11,7 +11,7 @@
 .form-register{
     display: flex;
     flex-direction: column;
-    height: 280px;
+    height: 390px;
     width: 500px;
     justify-content: space-around;
 }

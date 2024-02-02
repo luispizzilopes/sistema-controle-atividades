@@ -9,6 +9,9 @@ namespace AtividadesAPI.Models
         public int AtividadeId { get; set; }
 
         [Required]
+        public string UserId { get; set; } = null!;
+
+        [Required]
         [MinLength(5)]
         [MaxLength(50)]
         public string NomeAtividade { get; set; } = null!;

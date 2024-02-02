@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import CircleProgressBar from "../components/CircleProgressBar";
 import moment from "moment";
 import './styles/nova-atividade.css'
+import { decryptText } from "../Encrypt/Encrypt";
 import { useNavigate } from "react-router-dom";
 
 type Categoria = [ICategoria] | [];
@@ -30,7 +31,7 @@ export default function NovaAtividade() {
     const navigate = useNavigate();
 
     const carregarCategorias = async () => {
-        await api.get("api/Categoria")
+        await api.get(`api/Categoria/${JSON.parse(decryptText(sessionStorage.getItem("session")!)).id}`)
             .then(resp => setCategorias(resp.data))
             .catch(error => {
                 console.log(error);
@@ -55,6 +56,7 @@ export default function NovaAtividade() {
     const enviarNovaAtividade = async () => {
         await api.post("api/Atividade", {
             nomeAtividade: nomeAtividade,
+            userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id, 
             descricaoAtividade: descricaoAtividade,
             inicioAtividade: dataInicio,
             finalAtividade: new Date(),

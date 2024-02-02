@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import './styles/atividade.css';
 import moment from "moment";
 import { toast } from "react-toastify";
+import { decryptText } from "../Encrypt/Encrypt";
 
 
 type Atividade = IAtividade | null;
@@ -23,21 +24,22 @@ export default function Atividade() {
     const navigate = useNavigate();
 
     const carregarAtividade = async () => {
-        await api.get(`api/Atividade/${id}`)
+        await api.get(`api/Atividade/${JSON.parse(decryptText(sessionStorage.getItem("session")!)).id}/${decryptText(id?.toString()!)}`)
             .then(resp => {
                 setAtividade(resp.data);
                 setDescricaoAtividade(resp.data.descricaoAtividade)
                 setNomeAtividade(resp.data.nomeAtividade);
             })
             .catch(error => {
+                navigate("/atividades")
                 console.error(error);
-                navigate("/")
             });
     }
 
     const atualizarAtividade = async () => {
         await api.put("api/Atividade", {
             atividadeId: atividade?.atividadeId,
+            userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id, 
             nomeAtividade: nomeAtividade,
             descricaoAtividade: descricaoAtividade,
             inicioAtividade: atividade?.inicioAtividade,

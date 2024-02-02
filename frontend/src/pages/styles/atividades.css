@@ -12,6 +12,10 @@
         margin-bottom: 20px;
     }
 
+    .cabecalho-atividades div svg{
+        display: none;
+    }
+
     .cabecalho-atividades h1{
         width: 10px;
         margin-bottom: 10px;

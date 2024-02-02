@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtividadesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240117222405_jwt")]
-    partial class Jwt
+    [Migration("20240201222234_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,10 @@ namespace AtividadesAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("AtividadeId");
 
                     b.HasIndex("CategoriaId");
@@ -83,6 +87,10 @@ namespace AtividadesAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CategoriaId");
 
                     b.ToTable("Categorias");
@@ -97,6 +105,10 @@ namespace AtividadesAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistroId"));
 
                     b.Property<string>("DescricaoRegistro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

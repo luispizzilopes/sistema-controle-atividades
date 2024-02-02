@@ -1,4 +1,5 @@
-﻿using AtividadesAPI.Models;
+﻿using AtividadesAPI.Migrations;
+using AtividadesAPI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,5 +14,6 @@ namespace AtividadesAPI.Context
         public DbSet<Atividade> Atividades { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<RegistroLog> RegistroLoges { get; set; }
+        public DbSet<AtividadeFutura> AtividadesFuturas { get; set; }
     }
 }

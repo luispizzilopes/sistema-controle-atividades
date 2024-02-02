@@ -21,14 +21,14 @@ namespace AtividadesAPI.Controllers
             _categoriaService = categoriaService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<HomeInfoDTO>> HomeInfo()
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<HomeInfoDTO>> HomeInfo([FromRoute]string userId)
         {
             try
             {
                 DateTime hoje = DateTime.Now;
-                var atividadesCadastradas = await _atividadeService.GetAllAtividades();
-                var categoriasCadastradas = await _categoriaService.GetAllCategoria();
+                var atividadesCadastradas = await _atividadeService.GetAllAtividades(userId);
+                var categoriasCadastradas = await _categoriaService.GetAllCategoria(userId);
 
                 double tempoTotalAtividades = atividadesCadastradas.Sum(a => (a.FinalAtividade - a.InicioAtividade).Hours);
                 int quantidadeAtividadesCadastradasMesAtual = atividadesCadastradas.Where(a => a.InicioAtividade.Month == hoje.Month && a.InicioAtividade.Year == hoje.Year).ToList().Count();

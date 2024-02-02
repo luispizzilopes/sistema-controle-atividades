@@ -5,7 +5,7 @@ import ButtonAppBar from "../components/ButtonAppBar";
 import SimpleCard from "../components/SimpleCard";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
-
+import { decryptText } from "../Encrypt/Encrypt";
 import './styles/categoria.css';
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -24,7 +24,7 @@ export default function Categoria() {
     const navigate = useNavigate();
 
     const carregarCategoria = async () => {
-        await api.get(`api/Categoria/${id}`)
+        await api.get(`api/Categoria/${JSON.parse(decryptText(sessionStorage.getItem("session")!)).id}/${id}`)
             .then(resp => {
                 setCategoria(resp.data);
                 setDescricaoCategoria(resp.data.descricaoCategoria)
@@ -39,6 +39,7 @@ export default function Categoria() {
     const atualizarCategoria = async () => {
         await api.put("api/Categoria", {
             categoriaId: categoria?.categoriaId,
+            userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id, 
             nomeCategoria: nomeCategoria,
             descricaoCategoria: descricaoCategoria,
             dataCriacaoCategoria: categoria?.dataCriacaoCategoria,
