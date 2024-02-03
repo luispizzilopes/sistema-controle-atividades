@@ -27,5 +27,8 @@ namespace AtividadesAPI.Models
 
         [JsonIgnore]
         public ICollection<Atividade>? Atividades { get; set; }
+
+        [JsonIgnore]
+        public ICollection<AtividadeFutura>? AtividadesFuturas { get; set; }
     }
 }

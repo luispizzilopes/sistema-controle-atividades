@@ -10,6 +10,10 @@ import { ILogin } from "../interfaces/ILogin";
 import DialogPassword from "../components/DialogPassword";
 import CircularProgress from '@mui/material/CircularProgress';
 import { encryptText } from "../Encrypt/Encrypt";
+import { IconButton } from "@mui/material";
+import { Visibility } from "@mui/icons-material";
+import { VisibilityOff } from "@mui/icons-material";
+
 import './styles/login.css';
 
 export default function Login() {
@@ -18,6 +22,11 @@ export default function Login() {
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const navigate = useNavigate();
 
@@ -70,9 +79,17 @@ export default function Login() {
                         <TextField
                             label="Senha:"
                             variant="outlined"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             value={password}
-                            onChange={e => setPassword(e.target.value)} />
+                            onChange={(e) => setPassword(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <IconButton onClick={handleTogglePasswordVisibility}>
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                ),
+                            }}
+                        />
 
                         <small
                             onClick={() => setOpenModal(true)}

@@ -11,9 +11,12 @@ import { Button } from "@mui/material";
 import { toast } from "react-toastify";
 import CircleProgressBar from "../components/CircleProgressBar";
 import moment from "moment";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import './styles/nova-atividade.css'
 import { decryptText } from "../Encrypt/Encrypt";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 type Categoria = [ICategoria] | [];
 
@@ -27,6 +30,8 @@ export default function NovaAtividade() {
 
     const [etapa, setEtapa] = useState<number>(1);
     const [tempoDeAtividade, setTempoDeAtividade] = useState<number>(0);
+
+    const [aviso, setAviso] = useState<boolean>(true);
 
     const navigate = useNavigate();
 
@@ -56,7 +61,7 @@ export default function NovaAtividade() {
     const enviarNovaAtividade = async () => {
         await api.post("api/Atividade", {
             nomeAtividade: nomeAtividade,
-            userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id, 
+            userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id,
             descricaoAtividade: descricaoAtividade,
             inicioAtividade: dataInicio,
             finalAtividade: new Date(),
@@ -173,14 +178,20 @@ export default function NovaAtividade() {
                                 </Button>
                                 <Button
                                     variant="contained"
-                                    onClick={()=> enviarNovaAtividade()}
+                                    onClick={() => enviarNovaAtividade()}
                                 >
                                     Finalizar
                                 </Button>
                             </div>
+                            <Stack sx={{ width: '100%', marginTop: "20px", display: aviso === true ? "flex" : "none" }} spacing={2}>
+                                <Alert severity="warning" onClose={() => setAviso(false)}>
+                                    Não saia desta tela nem feche o seu navegador; caso contrário, perderá o progresso feito até agora.
+                                </Alert>
+                            </Stack>
                         </div>
                     </div>
                 </ButtonAppBar>
+                <Footer/>
             </div>
         </React.Fragment >
     );

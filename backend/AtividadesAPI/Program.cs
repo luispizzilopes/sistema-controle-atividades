@@ -89,7 +89,7 @@ builder.Services.AddAuthentication(
         ValidIssuer = builder.Configuration["TokenConfiguration:Issuer"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            builder.Configuration["Jwt:key"]))
+            builder.Configuration["Jwt:key"]!))
     });
 
 builder.Services.AddCors(); 

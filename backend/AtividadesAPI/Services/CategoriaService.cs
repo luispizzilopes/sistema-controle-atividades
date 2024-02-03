@@ -22,7 +22,7 @@ namespace AtividadesAPI.Services
         public async Task<IEnumerable<Categoria>> GetAllCategoria(string userId)
         {
             var categorias = await _repositoryCategoria.GetAll();
-            return categorias.Where(c => c.UserId == userId).ToList();
+            return categorias.Where(c => c.UserId == userId).OrderByDescending(c => c.CategoriaId).ToList();
         }
 
         public async Task<Categoria> GetByIdCategoria(string userId,int id)

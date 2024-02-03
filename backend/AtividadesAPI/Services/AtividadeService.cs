@@ -34,7 +34,9 @@ namespace AtividadesAPI.Services
                     InicioAtividade = a.InicioAtividade,
                     FinalAtividade = a.FinalAtividade,
                     NomeAtividade = a.NomeAtividade,
-                }).ToListAsync();
+                })
+                .OrderByDescending(a => a.AtividadeId)
+                .ToListAsync();
         }
 
         public async Task<AtividadeDTO?> GetByIdAtividade(string userId, int id)

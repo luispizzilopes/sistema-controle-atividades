@@ -44,7 +44,7 @@ namespace AtividadesAPI.Controllers
             {
                 UserName = model.Nome,
                 Email = model.Email,
-                EmailConfirmed = true
+                EmailConfirmed = false
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -66,13 +66,29 @@ namespace AtividadesAPI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(await GeraToken(userInfo));
-            }
-            else
-            {
-                ModelState.AddModelError("Erro", "Verifique as credenciais informadas e tente novamente!");
+                bool emailConfirmed = await _context.Users.Where(u => u.Email == userInfo.Email).Select(e => e.EmailConfirmed).FirstOrDefaultAsync();
+
+                if (emailConfirmed)
+                {
+                    return Ok(await GeraToken(userInfo));
+                }
+
+                ModelState.AddModelError("Erro", "Confirme seu e-mail e tente novamente!");
                 return BadRequest(ModelState);
             }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userInfo.Email);
+
+            if (user != null)
+            {
+                user.AccessFailedCount = user.AccessFailedCount + 1;
+                _context.Users.Entry(user).State = EntityState.Modified; 
+
+                await _context.SaveChangesAsync();
+            }
+                
+            ModelState.AddModelError("Erro", "Verifique as credenciais informadas e tente novamente!");
+            return BadRequest(ModelState);
         }
 
         private async Task<UsuarioTokenDTO> GeraToken(UsuarioDTO userInfo)

@@ -9,12 +9,21 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { IRegister } from "../interfaces/IRegister";
 import OutlinedCard from "../components/Card";
+import { IconButton } from "@mui/material";
+import { Visibility } from "@mui/icons-material";
+import { VisibilityOff } from "@mui/icons-material";
+
 
 export default function RegisterUser() {
     const [email, setEmail] = useState<String>("");
     const [nome, setNome] = useState<String>("");
     const [password, setPassword] = useState<String>("");
     const [confirmPassword, setConfirmPassword] = useState<String>("");
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const navigate = useNavigate();
 
@@ -42,6 +51,11 @@ export default function RegisterUser() {
         }
     }
 
+    const handleFiltroApelido = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const novoNome = e.target.value.replace(/\s/g, '').slice(0, 15);
+        setNome(novoNome);
+    };
+
     return (
         <React.Fragment>
             <div className="page-register">
@@ -54,12 +68,16 @@ export default function RegisterUser() {
                         }} />
                     </div>
                     <div className="form-register">
-                        <TextField
-                            label="Nome Completo:"
-                            variant="outlined"
-                            type="text"
-                            value={nome}
-                            onChange={e => setNome(e.target.value)} />
+                        <Tooltip
+                            title="Seu apelido deve conter no máximo 15 caracteres e nenhum espaço em branco."
+                            placement="bottom-start">
+                            <TextField
+                                label="Apelido:"
+                                variant="outlined"
+                                type="text"
+                                value={nome}
+                                onChange={handleFiltroApelido} />
+                        </Tooltip>
 
                         <TextField
                             label="E-mail:"
@@ -74,20 +92,36 @@ export default function RegisterUser() {
                             <TextField
                                 label="Senha:"
                                 variant="outlined"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 value={password}
-                                onChange={e => setPassword(e.target.value)} />
+                                onChange={(e) => setPassword(e.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton onClick={handleTogglePasswordVisibility}>
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    ),
+                                }}
+                            />
                         </Tooltip>
 
                         <Tooltip
                             title="A senha deve conter no mínimo 8 caracteres, um carácter maiúsculo e um carácter especial."
                             placement="bottom-start">
-                            <TextField
-                                label="Confirmar Senha:"
+                                 <TextField
+                                label="Senha:"
                                 variant="outlined"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 value={confirmPassword}
-                                onChange={e => setConfirmPassword(e.target.value)} />
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton onClick={handleTogglePasswordVisibility}>
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    ),
+                                }}
+                            />
                         </Tooltip>
 
                         <Button

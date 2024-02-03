@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AtividadesAPI.Models
 {
@@ -20,5 +21,10 @@ namespace AtividadesAPI.Models
         [Required]
         public DateTime DataPrevista { get; set; } 
         public DateTime? DataRealizada { get; set; }
+
+        public int CategoriaId { get; set; }
+
+        [JsonIgnore]
+        public Categoria? Categoria { get; set; }
     }
 }
