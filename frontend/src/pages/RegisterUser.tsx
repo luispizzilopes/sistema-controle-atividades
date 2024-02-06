@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
 import './styles/register.css';
@@ -12,7 +11,9 @@ import OutlinedCard from "../components/Card";
 import { IconButton } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
-
+import logoExtendFile from '../assets/extendfile_branco.png';
+import logoSistemaAtividade from '../assets/sistema-atividades.png'
+import LoadingProgress from "../components/LoadingProgress";
 
 export default function RegisterUser() {
     const [email, setEmail] = useState<String>("");
@@ -20,6 +21,8 @@ export default function RegisterUser() {
     const [password, setPassword] = useState<String>("");
     const [confirmPassword, setConfirmPassword] = useState<String>("");
     const [showPassword, setShowPassword] = useState(false);
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleTogglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -29,6 +32,8 @@ export default function RegisterUser() {
 
     const submitRequestRegisterUser = async () => {
         if (email != "" && nome !== "" && password != "" && confirmPassword != "" && (password === confirmPassword)) {
+            setLoading(true); 
+
             let bodyLogin: IRegister = {
                 nome,
                 email,
@@ -38,11 +43,13 @@ export default function RegisterUser() {
             axios.post("https://localhost:7001/api/Auth/register", bodyLogin)
                 .then(resp => {
                     if (resp.status === 200) {
+                        setLoading(false); 
                         toast.success("Usuário registrado com sucesso!");
                         navigate("/");
                     }
                 })
                 .catch(error => {
+                    setLoading(false); 
                     toast.error("Verifique todos os campos e tente novamente!");
                     console.error(error);
                 });
@@ -61,18 +68,18 @@ export default function RegisterUser() {
             <div className="page-register">
                 <OutlinedCard>
                     <div className="logo-task">
-                        <TaskAltIcon sx={{
-                            width: "150px",
-                            height: "150px",
-                            marginBottom: "20px"
+                        <img src={logoSistemaAtividade} style={{
+                            width: "250px",
+                            height: "250px",
+                            marginBottom: "10px"
                         }} />
                     </div>
                     <div className="form-register">
                         <Tooltip
-                            title="Seu apelido deve conter no máximo 15 caracteres e nenhum espaço em branco."
+                            title="Seu nome de usuário deve conter no máximo 15 caracteres e nenhum espaço em branco."
                             placement="bottom-start">
                             <TextField
-                                label="Apelido:"
+                                label="Nome de Usuário:"
                                 variant="outlined"
                                 type="text"
                                 value={nome}
@@ -108,7 +115,7 @@ export default function RegisterUser() {
                         <Tooltip
                             title="A senha deve conter no mínimo 8 caracteres, um carácter maiúsculo e um carácter especial."
                             placement="bottom-start">
-                                 <TextField
+                            <TextField
                                 label="Senha:"
                                 variant="outlined"
                                 type={showPassword ? 'text' : 'password'}
@@ -136,9 +143,15 @@ export default function RegisterUser() {
                         </Button>
                     </div>
 
-                    <small id="extend-file">{new Date().getFullYear().toString()} Copyright © - Desenvolvido por eXtend File.</small>
+
+                    <div className="extend-file-div">
+                        <img src={logoExtendFile} alt="Logo eXtend File" width={150} />
+                        <small id="extend-file">{new Date().getFullYear().toString()} Copyright © - Desenvolvido por eXtend File.</small>
+                    </div>
                 </OutlinedCard>
             </div>
+
+            <LoadingProgress loading={loading}/>
         </React.Fragment>
     );
 }
