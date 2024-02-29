@@ -285,8 +285,8 @@ namespace AtividadesAPI.Controllers
             //retorna os dados com o token e informações
             return new UsuarioTokenDTO()
             {
-                Id = await _context.Users.Where(u => u.Email == userInfo.Email).Select(u => u!.Id).FirstOrDefaultAsync(), 
-                Name = await _context.Users.Where(u => u.Email == userInfo.Email).Select(u => u!.UserName).FirstOrDefaultAsync(),
+                Id = await _context.Users.Where(u => u.Email == userInfo.Email).Select(u => u!.Id).FirstOrDefaultAsync() ?? await _context.Users.Where(u => u.UserName == userInfo.Email).Select(u => u!.Id).FirstOrDefaultAsync(), 
+                Name = await _context.Users.Where(u => u.Email == userInfo.Email).Select(u => u!.UserName).FirstOrDefaultAsync() ?? await _context.Users.Where(u => u.UserName == userInfo.Email).Select(u => u!.UserName).FirstOrDefaultAsync(),
                 Email = userInfo.Email,
                 Authenticated = true,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),

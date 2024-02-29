@@ -41,15 +41,17 @@ export default function Categorias() {
     };
 
     const columns: GridColDef[] = [
-        { field: 'categoriaId', headerName: 'Id', flex: 1 },
+        { field: 'categoriaId', headerName: 'Categoria Id' },
+        { field: 'id', headerName: 'Id', flex: 1 },
         { field: 'nomeCategoria', headerName: 'Nome Categoria', flex: 2 },
         { field: 'descricaoCategoria', headerName: 'Descrição Categoria', flex: 3 },
         { field: 'dataCriacaoCategoria', headerName: 'Data de Cadastro', flex: 3 },
         { field: 'dataAlteracaoCategoria', headerName: 'Data de Alteração', flex: 3 },
     ];
 
-    const rows = categorias.map((categoria) => ({
+    const rows = categorias.map((categoria, index) => ({
         categoriaId: categoria.categoriaId,
+        id: index + 1, 
         nomeCategoria: categoria.nomeCategoria,
         descricaoCategoria: categoria.descricaoCategoria,
         dataCriacaoCategoria: moment(categoria.dataCriacaoCategoria).format("DD/MM/YYYY HH:mm:ss"),
@@ -82,10 +84,16 @@ export default function Categorias() {
                                 <DataGrid
                                     onRowClick={handleRowClick}
                                     rows={rows}
-                                    getRowId={(row) => row.categoriaId}
+                                    getRowId={(row) => row.id}
                                     columns={columns}
                                     localeText={localizedTextsMap}
                                     initialState={{
+                                        columns: {
+                                            columnVisibilityModel: {
+                                              // Hide columns status and traderName, the other columns will remain visible
+                                              categoriaId: false,
+                                            }
+                                        },
                                         pagination: {
                                             paginationModel: { page: 0, pageSize: 10 },
                                         },

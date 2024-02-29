@@ -40,6 +40,7 @@ export default function Atividades() {
 
     const columns: GridColDef[] = [
         { field: 'atividadeId', headerName: 'Id', flex: 1 },
+        { field: 'id', headerName: 'Id', flex: 1 },
         { field: 'nomeAtividade', headerName: 'Nome Atividade', flex: 2 },
         { field: 'descricaoAtividade', headerName: 'Descrição Atividade', flex: 2 },
         { field: 'inicioAtividade', headerName: 'Início da Atividade', flex: 3 },
@@ -47,8 +48,9 @@ export default function Atividades() {
         { field: 'nomeCategoria', headerName: 'Categoria', flex: 2 },
     ];
 
-    const rows = atividades.map((atividade) => ({
+    const rows = atividades.map((atividade, index) => ({
         atividadeId: atividade.atividadeId,
+        id: index + 1, 
         nomeAtividade: atividade.nomeAtividade,
         descricaoAtividade: atividade.descricaoAtividade,
         inicioAtividade: moment(atividade.inicioAtividade).format("DD/MM/YYYY HH:mm:ss"),
@@ -86,6 +88,12 @@ export default function Atividades() {
                                     columns={columns}
                                     localeText={localizedTextsMap}
                                     initialState={{
+                                        columns: {
+                                            columnVisibilityModel: {
+                                              // Hide columns status and traderName, the other columns will remain visible
+                                              atividadeId: false,
+                                            }
+                                        },
                                         pagination: {
                                             paginationModel: { page: 0, pageSize: 10 },
                                         },

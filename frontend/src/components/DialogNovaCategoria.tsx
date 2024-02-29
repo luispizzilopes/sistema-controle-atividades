@@ -35,7 +35,7 @@ export default function DialogNovaCategoria({ open, setOpen, carregarCategorias 
         if(nomeCategoria != "" && descricaoCategoria != ""){
             await api.post("api/Categoria", {
                 nomeCategoria: nomeCategoria,
-                userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id, 
+                userId: JSON.parse(decryptText(sessionStorage.getItem("session")!)).id,
                 descricaoCategoria: descricaoCategoria,
                 dataCriacaoCategoria: new Date()
             })
